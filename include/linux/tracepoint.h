@@ -210,6 +210,7 @@ extern void syscall_unregfunc(void);
  * structures, so we create an array of pointers that will be used for iteration
  * on the tracepoints.
  */
+#undef DEFINE_EVENT_FN
 #define DEFINE_TRACE_FN(name, reg, unreg)				 \
 	static const char __tpstrtab_##name[]				 \
 	__attribute__((section("__tracepoints_strings"))) = #name;	 \
