@@ -103,7 +103,7 @@
 #define TRACE_EVENT_PERF_PERM(name, expr...)				\
 	__TRACE_EVENT_PERF_PERM(name, expr)
 
-#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
+/* #include TRACE_INCLUDE(TRACE_INCLUDE_FILE)*/
 
 
 /*
@@ -165,7 +165,7 @@
 #undef TRACE_EVENT_PERF_PERM
 #define TRACE_EVENT_PERF_PERM(event, expr...)
 
-#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
+/*#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)*/
 
 /*
  * Stage 3 of the trace events.
@@ -324,7 +324,7 @@ static struct trace_event_functions ftrace_event_type_funcs_##call = {	\
 	.trace			= ftrace_raw_output_##call,		\
 };
 
-#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
+/*#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)*/
 
 #undef __field_ext
 #define __field_ext(type, item, filter_type)				\
@@ -396,7 +396,7 @@ ftrace_define_fields_##call(struct ftrace_event_call *event_call)	\
 #define DEFINE_EVENT_PRINT(template, name, proto, args, print)	\
 	DEFINE_EVENT(template, name, PARAMS(proto), PARAMS(args))
 
-#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
+/*#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)*/
 
 /*
  * remember the offset of each array from the beginning of the event.
@@ -476,7 +476,7 @@ static inline notrace int ftrace_get_offsets_##call(			\
 #define DEFINE_EVENT_PRINT(template, name, proto, args, print)	\
 	DEFINE_EVENT(template, name, PARAMS(proto), PARAMS(args))
 
-#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
+/*#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)*/
 
 /*
  * Stage 4 of the trace events.
@@ -673,7 +673,7 @@ static inline void ftrace_test_probe_##call(void)			\
 #undef DEFINE_EVENT_PRINT
 #define DEFINE_EVENT_PRINT(template, name, proto, args, print)
 
-#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
+/*#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)*/
 
 #undef __entry
 #define __entry REC
@@ -736,7 +736,7 @@ static struct ftrace_event_call __used event_##call = {			\
 static struct ftrace_event_call __used					\
 __attribute__((section("_ftrace_events"))) *__event_##call = &event_##call
 
-#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
+/*#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)*/
 
 
 #ifdef CONFIG_PERF_EVENTS
@@ -826,6 +826,6 @@ static inline void perf_test_probe_##call(void)				\
 #define DEFINE_EVENT_PRINT(template, name, proto, args, print)	\
 	DEFINE_EVENT(template, name, PARAMS(proto), PARAMS(args))
 
-#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)
+/*#include TRACE_INCLUDE(TRACE_INCLUDE_FILE)*/
 #endif /* CONFIG_PERF_EVENTS */
 
