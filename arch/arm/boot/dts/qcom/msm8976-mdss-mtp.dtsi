@@ -10,7 +10,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-
+#include "kenzo/dsi-panel-boe-nt35532-1080p-video.dtsi"
 &mdss_mdp {
 	qcom,mdss-pref-prim-intf = "dsi";
 };

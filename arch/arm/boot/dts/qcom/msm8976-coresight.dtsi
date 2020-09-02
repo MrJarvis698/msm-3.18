@@ -9,7 +9,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
-
+#include "kenzo/msm8976-pinctrl-kenzo.dtsi"
 &soc {
 	tmc_etr: tmc@6026000 {
 		compatible = "arm,coresight-tmc";
