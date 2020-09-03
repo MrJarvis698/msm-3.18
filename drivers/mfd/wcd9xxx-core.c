@@ -34,6 +34,9 @@
 #include <linux/regmap.h>
 #include <sound/soc.h>
 #include "wcd9xxx-regmap.h"
+#ifdef CONFIG_MACH_XIAOMI_KENZO
+#include <linux/reboot.h>
+#endif
 
 #define WCD9XXX_REGISTER_START_OFFSET 0x800
 #define WCD9XXX_SLIM_RW_MAX_TRIES 3
@@ -1102,6 +1105,12 @@ static int wcd9335_bring_up(struct wcd9xxx *wcd9xxx)
 			__func__);
 		return -EINVAL;
 	}
+#ifdef CONFIG_MACH_XIAOMI_KENZO
+	if (val < 0 || byte0 < 0) {
+		pr_err("%s: some thing wrong with the codec restart target\n", __func__);
+		emergency_restart();
+	}
+#endif
 
 	if ((val & 0x80) && (byte0 == 0x0)) {
 		dev_info(wcd9xxx->dev, "%s: wcd9335 codec version is v1.1\n",
@@ -1384,6 +1393,13 @@ static const struct wcd9xxx_codec_type
 			 *version);
 	}
 exit:
+#ifdef CONFIG_MACH_XIAOMI_KENZO
+	if (rc < 0) {
+		pr_err("%s: some thing wrong with the codec restart target\n", __func__);
+		emergency_restart();
+	}
+#endif
+
 	return d;
 }
 
@@ -1515,15 +1531,15 @@ static const struct intr_data intr_tbl_v4[] = {
 	{WCD9335_IRQ_MBHC_ELECT_INS_REM_DET, true},
 	{WCD9335_IRQ_MBHC_ELECT_INS_REM_LEG_DET, true},
 	{WCD9335_IRQ_FLL_LOCK_LOSS, false},
-	{WCD9335_IRQ_HPH_PA_CNPL_COMPLETE, false},
-	{WCD9335_IRQ_HPH_PA_CNPR_COMPLETE, false},
+	{WCD9335_IRQ_HPH_PA_CNPL_COMPLETE, true},
+	{WCD9335_IRQ_HPH_PA_CNPR_COMPLETE, true},
 	{WCD9335_IRQ_EAR_PA_CNP_COMPLETE, false},
 	{WCD9335_IRQ_LINE_PA1_CNP_COMPLETE, false},
 	{WCD9335_IRQ_LINE_PA2_CNP_COMPLETE, false},
 	{WCD9335_IRQ_LINE_PA3_CNP_COMPLETE, false},
 	{WCD9335_IRQ_LINE_PA4_CNP_COMPLETE, false},
-	{WCD9335_IRQ_HPH_PA_OCPL_FAULT, false},
-	{WCD9335_IRQ_HPH_PA_OCPR_FAULT, false},
+	{WCD9335_IRQ_HPH_PA_OCPL_FAULT, true},
+	{WCD9335_IRQ_HPH_PA_OCPR_FAULT, true},
 	{WCD9335_IRQ_EAR_PA_OCP_FAULT, false},
 	{WCD9335_IRQ_SOUNDWIRE, false},
 	{WCD9335_IRQ_VDD_DIG_RAMP_COMPLETE, false},
