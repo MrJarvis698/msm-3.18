@@ -95,6 +95,10 @@ extern void init_IRQ(void);
 extern void fork_init(unsigned long);
 extern void radix_tree_init(void);
 
+#ifdef CONFIG_MACH_XIAOMI_KENZO
+int kenzo_boardid = 2;
+#endif
+
 /*
  * Debug helper: via this flag we know that we are in 'early bootup code'
  * where only the boot processor is running with IRQ disabled.  This means
@@ -161,6 +165,10 @@ const char *envp_init[MAX_INIT_ENVS+2] = { "HOME=/", "TERM=linux", NULL, };
 static const char *panic_later, *panic_param;
 
 extern const struct obs_kernel_param __setup_start[], __setup_end[];
+
+#ifdef CONFIG_MACH_XIAOMI_KENZO
+	char * board_id_ptr;
+#endif
 
 static int __init obsolete_checksetup(char *line)
 {
@@ -541,6 +549,13 @@ asmlinkage __visible void __init start_kernel(void)
 	page_alloc_init();
 
 	pr_notice("Kernel command line: %s\n", boot_command_line);
+
+#ifdef CONFIG_MACH_XIAOMI_KENZO
+	board_id_ptr = strstr(boot_command_line, "androidboot.boardID=");
+	if (board_id_ptr)
+		kenzo_boardid = simple_strtoul(&board_id_ptr[strlen("androidboot.boardID=")], NULL, 10);
+#endif
+
 	/* parameters may set static keys */
 	jump_label_init();
 	parse_early_param();
